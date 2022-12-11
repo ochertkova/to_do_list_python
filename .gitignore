@@ -1,3 +1,6 @@
 .vscode
 src/__pycache__
 .env
+templates
+static
+routes
