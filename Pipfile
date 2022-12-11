@@ -4,9 +4,18 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+flask-sqlalchemy = "*"
+python-dotenv = "*"
+psycopg2 = "*"
+jsonpickle = "*"
+dataclasses-json = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.9"
 python_full_version = "3.9.7"
+
+[scripts]
+devserver = "python main.py"
