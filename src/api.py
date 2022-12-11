@@ -4,25 +4,37 @@ from src import app, db
 from flask import Flask, jsonify, request, abort
 from src.models import *
 from datetime import datetime
-import jsonpickle
+
+
+def validate_auth(request):
+    # Read Authorization header from request
+    # Check formaat Bearer TOKEN
+    # Decrypt TOKEN with env.secret, read user_id from the decrypted json
+    if 'Email' in list(request.headers.keys()):
+        db_user = db.session.query(User).filter_by(
+            email=request.headers.get('Email')).first()
+        if db_user:
+            return db_user.id
+    abort(403)
 
 
 @app.route('/todos', methods=['GET'])
 def get_todos():
-    return jsonpickle.encode([item for item in db.session.query(Todo).all()])
+    user_id = validate_auth(request)
+    return jsonify([elem.to_dict() for elem in db.session.query(Todo).filter_by(user_id=user_id)])
 
 
-@app.route('/todos/add', methods=['POST'])
+@ app.route('/todos', methods=['POST'])
 def add_todo():
+    user_id = validate_auth(request)
     todo = json.loads(request.data)
     todo["created"] = datetime.now()
     todo["updated"] = datetime.now()
-    entry = Todo(todo['name'], todo["description"], todo["user_id"],
+    entry = Todo(todo['name'], todo["description"], user_id,
                  todo["created"], todo["updated"], todo["status"])
-    print(jsonpickle.encode(entry))
     db.session.add(entry)
     db.session.commit()
-    return jsonpickle.encode(entry)
+    return jsonify(entry.to_dict())
 
 
 @app.route('/users/signup', methods=['POST'])
@@ -34,4 +46,4 @@ def add_user():
                  user["created"], user["updated"])
     db.session.add(entry)
     db.session.commit()
-    return jsonpickle.encode(entry)
+    return jsonify(entry)

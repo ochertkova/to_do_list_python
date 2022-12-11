@@ -1,7 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-import psycopg2
 from dotenv import load_dotenv
 
 load_dotenv(override=True)

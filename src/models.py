@@ -1,6 +1,5 @@
 from datetime import datetime
 from . import db
-from flask_login import UserMixin
 
 
 class Todo(db.Model):  # type: ignore
@@ -14,7 +13,6 @@ class Todo(db.Model):  # type: ignore
     status = db.Column(db.String(64))
 
     def __init__(self, name, description, user_id, created, updated, status):
-
         self.name = name
         self.description = description
         self.user_id = user_id
@@ -22,8 +20,19 @@ class Todo(db.Model):  # type: ignore
         self.updated = updated,
         self.status = status
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'user_id': self.user_id,
+            'status': self.status,
+            'created': self.created,
+            'updated': self.updated
+        }
 
-class User(db.Model, UserMixin):  # type: ignore
+
+class User(db.Model):  # type: ignore
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(128), unique=True)
