@@ -10,9 +10,10 @@ def validate_auth(request):
     # Read Authorization header from request
     # Check formaat Bearer TOKEN
     # Decrypt TOKEN with env.secret, read user_id from the decrypted json
-    if 'Email' in list(request.headers.keys()):
+    if 'Authorization' in list(request.headers.keys()):
+        bearer_token = request.headers.get('Authorization')[7:]
         db_user = db.session.query(User).filter_by(
-            email=request.headers.get('Email')).first()
+            email=bearer_token).first()
         if db_user:
             return db_user.id
     abort(403)
@@ -20,11 +21,18 @@ def validate_auth(request):
 
 @app.route('/todos', methods=['GET'])
 def get_todos():
+    statuses = ['NotStarted', 'OnGoing', 'Completed']
     user_id = validate_auth(request)
-    return jsonify([elem.to_dict() for elem in db.session.query(Todo).filter_by(user_id=user_id)])
+    if request.args.get('status') in statuses:
+        db_result = db.session.query(Todo).filter_by(
+            user_id=user_id, status=request.args.get('status'))
+    else:
+        db_result = db.session.query(Todo).filter_by(user_id=user_id)
+
+    return jsonify([elem.to_dict() for elem in db_result])
 
 
-@ app.route('/todos', methods=['POST'])
+@app.route('/todos', methods=['POST'])
 def add_todo():
     user_id = validate_auth(request)
     todo = json.loads(request.data)
@@ -35,6 +43,36 @@ def add_todo():
     db.session.add(entry)
     db.session.commit()
     return jsonify(entry.to_dict())
+
+
+@app.route('/todos/<int:id>', methods=['PUT'])
+def update_todo(id):
+    user_id = validate_auth(request)
+    update_data = json.loads(request.data)
+    db_todo = db.session.query(Todo).get(id)
+
+    if db_todo.user_id != user_id:
+        abort(403)
+
+    db_todo.updated = datetime.now()
+    db_todo.name = update_data['name']
+    db_todo.description = update_data["description"]
+    db_todo.status = update_data["status"]
+    db.session.commit()
+    return jsonify(db_todo.to_dict())
+
+
+@app.route('/todos/<int:id>', methods=['DELETE'])
+def delete_todo(id):
+    user_id = validate_auth(request)
+    db_todo = db.session.query(Todo).get(id)
+
+    if db_todo.user_id != user_id:
+        abort(403)
+
+    db.session.delete(db_todo)
+    db.session.commit()
+    return jsonify({'id': id})
 
 
 @app.route('/users/signup', methods=['POST'])
