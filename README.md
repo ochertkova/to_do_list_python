@@ -41,7 +41,7 @@ pipenv run devserver
 The Dev server starts the API at `http://localhost:5000`
 Repository includes [Postman collection](Todo_API.postman_collection.json) for testing the APIs.
 
-###Implemented features
+### Implemented features
 
 The backend application exposes a set of REST APIs for the following endpoints:
 
@@ -68,7 +68,9 @@ The backend application exposes a set of REST APIs for the following endpoints:
 - **DELETE** */api/v1/todos/:id*: Delete a todo item.The response will be:
     - HTTP 200 OK with id of deleted TODO item
     - HTTP 403 if authentication failed
-###Planned further development
+
+### Planned further development
+
 - Add Unit tests and flask endpoint tests using SQLLite
 - Add experetion time to the authentication tokens
 - Write a simple Front-End in React
