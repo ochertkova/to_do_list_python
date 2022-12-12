@@ -37,12 +37,14 @@ def validate_auth(request):
     except:
         pass
     message = 'Authentication failed'
-    return forbidden(message)
+    fail_response = jsonify(message)
+    fail_response.status_code = 403
+    return abort(fail_response)
 
 
 @app.route('/api/v1/todos', methods=['GET'])
 def get_todos():
-    """This function returns list of todo items. 
+    """This function returns list of todo items.
 
     Optionally, a status query param can be included to return only items of specific status: NotStarted, OnGoing, Completed.
     If not present, return all items"""
@@ -81,7 +83,7 @@ def update_todo(id):
     update_data = json.loads(request.data)
     db_todo = db.session.query(Todo).get(id)
 
-    if db_todo.user_id != user_id:  # check if user access their own todos
+    if db_todo.user_id != user_id:  # check if user accesses their own todos
         message = 'Can not access this Todo'
         return forbidden(message)
 
