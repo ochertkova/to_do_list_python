@@ -19,11 +19,11 @@ Run pipenv install inside the project directory.
 ```bash
 pipenv install 
 ```
-In addition to sourcecode a PostgreSQL instance is required.
+In addition to source code a PostgreSQL instance is required.
 
 ## Running The App
 
-In the file .env add the following lines:
+Add file .env with the following lines in the project directory:
 
 ```bash
 # add random gibberish as the value for TOKEN_SECRET
@@ -51,9 +51,7 @@ The backend application exposes a set of REST APIs for the following endpoints:
 - **POST** */api/v1/signin*: Sign in using email & password. The response will be:
     - HTTP 200 OK with encoded token if authentication was successful
     - HTTP 403 if authentication failed
-
 - **PUT** */api/v1/changePassword*: Change user’s password.The response will be:
-
     - HTTP 204 NO CONTENT if password change was successful
     - HTTP 403 if authentication failed
 - **GET** */api/v1/todos?status=[status]*: Get a list of todo items. Optionally, a status query param can be included to return only items of specific status. If not present, return all items.The response will be:
@@ -72,6 +70,6 @@ The backend application exposes a set of REST APIs for the following endpoints:
 ### Planned further development
 
 - Add Unit tests and flask endpoint tests using SQLLite
-- Add experetion time to the authentication tokens
+- Add experation time to the authentication tokens
 - Write a simple Front-End in React
 
