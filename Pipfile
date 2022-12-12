@@ -7,12 +7,13 @@ name = "pypi"
 flask = "*"
 flask-sqlalchemy = "*"
 python-dotenv = "*"
-psycopg2 = "*"
 dataclasses-json = "*"
 bcrypt = "*"
 pyjwt = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
+pytest = "*"
 
 [requires]
 python_version = "3.9"
@@ -20,3 +21,4 @@ python_full_version = "3.9.7"
 
 [scripts]
 devserver = "python main.py"
+test = "python -m unittest discover"
