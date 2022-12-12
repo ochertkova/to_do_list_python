@@ -3,6 +3,32 @@ from . import db
 
 
 class Todo(db.Model):  # type: ignore
+    """
+    A class used to represent a Todo note and create a table in DB
+
+    Attributes
+    ----------
+    id: int
+        Unique identifier
+    name: str
+        Name of the todo item
+    description: str
+        Description of the toto item
+    user id: int
+        Id of the user who owns this todo item
+    created: datetime
+        When the item is created
+    updated: datetime
+        When the item is last updated
+    status: str
+        An enum of either: NotStarted, OnGoing, Completed
+
+    Methods
+    -------
+    to_dict(self)
+        Returns a class instance as a dictionary
+    """
+
     __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128))
@@ -33,6 +59,22 @@ class Todo(db.Model):  # type: ignore
 
 
 class User(db.Model):  # type: ignore
+    """
+    A class used to represent a User and create a table in DB
+
+    Attributes
+    ----------
+    id: int
+        Unique identifier
+    email: str
+        Email address
+    password: str
+        Password
+    created: datetime
+        When the user is created
+    updated: datetime
+        When the user is last updated
+    """
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(128), unique=True)
