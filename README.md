@@ -41,6 +41,9 @@ pipenv run devserver
 The Dev server starts the API at `http://localhost:5000`
 Repository includes [Postman collection](Todo_API.postman_collection.json) for testing the APIs.
 
+The back-end app is also deployed at:
+https://todo-list-python.azurewebsites.net
+
 ### Implemented features
 
 The backend application exposes a set of REST APIs for the following endpoints:
