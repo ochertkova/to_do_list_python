@@ -1,1 +1,1 @@
-web:gunicorn --pythonpath src app:app
+web: pipenv run devserver
