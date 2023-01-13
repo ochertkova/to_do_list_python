@@ -8,6 +8,8 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'hlkfjrijhfbekeihydndkvh'  # secure session data
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
+postgre_url = os.environ["DATABASE_URL"]
+app.config["SQLALCHEMY_DATABASE_URI"] = postgre_url.replace(
+    'postgres:', 'postgresql:')
 
 db = SQLAlchemy(app)
