@@ -1,1 +1,1 @@
-web: pipenv run devserver
+web: gunicorn main:app
