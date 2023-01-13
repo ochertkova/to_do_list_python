@@ -8,6 +8,6 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'hlkfjrijhfbekeihydndkvh'  # secure session data
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["POSTGRESQL_URL"]
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
 
 db = SQLAlchemy(app)
