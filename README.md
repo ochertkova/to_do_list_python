@@ -42,7 +42,7 @@ The Dev server starts the API at `http://localhost:5000`
 Repository includes [Postman collection](Todo_API.postman_collection.json) for testing the APIs.
 
 The back-end app is also deployed at:
-https://todo-list-python.azurewebsites.net
+https://todo-list-olga.herokuapp.com
 
 ### Implemented features
 
